@@ -6,14 +6,76 @@ $.ajaxSetup({
 
 function calculate()
 {
+    if (!validate()) {
+        toastr.warning(window.input_required)
+        return false;
+    }
+
     $.ajax({
         method: "POST",
         url: "/calculate",
         dataType : 'json',
         data: {height: $("#height").val(), width: $("#width").val(), length: $("#length").val()},
     }).done(function(data) {
-        console.log(data, data.capacity)
-        $("#capacity").text(data.capacity)
-        $("#filtering").text(data.filtering)
+        setResults(data);
+        population(data.capacity);
     });
+}
+
+function population(liters = 0)
+{
+    $.ajax({
+        method: "POST",
+        url: "/fishpopulation/" + liters,
+        dataType : 'html',
+    }).done(function(data) {
+        $(".population").html(data)
+        loadFauna();
+    });
+}
+
+function fauna()
+{
+    $.ajax({
+        method: "POST",
+        url: "/fauna/",
+        dataType : 'html',
+        data: {
+            water: "",
+            liters: "",
+        }
+    }).done(function(data) {
+        console.log(data)
+    });
+}
+
+function loadFauna()
+{
+    $.ajax({
+        method: "GET",
+        url: "/fauna",
+        dataType : 'html',
+    }).done(function(data) {
+        $(".fauna").html(data)
+    });
+}
+
+function validate()
+{
+    if (!$("#height").val() || !$("#width").val() || !$("#length").val()) {
+        return false;
+    }
+
+    return true;
+}
+
+function setResults(data)
+{
+    $("#capacity").text(data.capacity)
+    $("#filtering").text(data.filtering)
+}
+
+function tab(model)
+{
+    fauna();
 }

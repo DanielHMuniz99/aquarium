@@ -17,3 +17,6 @@ use App\Http\Controllers\AquariumController;
 Route::get('/', [AquariumController::class, 'index'])->name('index');
 
 Route::post('/calculate', [AquariumController::class, 'calculate'])->name('calculate');
+Route::post('/fishpopulation/{liters}', [AquariumController::class, 'fishPopulation'])->name('fishPopulation');
+Route::get('/fauna', [AquariumController::class, 'loadFauna'])->name('loadFauna');
+Route::post('/fauna', [AquariumController::class, 'fauna'])->name('fauna');

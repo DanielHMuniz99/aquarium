@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
- 
+
 use App\Repositories\AquariumRepository;
 
 class CalculateAquariumService

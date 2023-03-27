@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 
 use App\Services\CalculateAquariumService;
+use App\Services\CalculateFishPopulationsService;
 use Illuminate\Http\Request;
 
 class AquariumController extends BaseController
 {
-    public $calculateAquariumService;
+    public $calculateAquarium;
 
     public function __construct()
     {
-        $this->calculateAquariumService = new CalculateAquariumService;
+        $this->calculateAquarium = new CalculateAquariumService;
+        $this->calculateFishPopulations = new CalculateFishPopulationsService;
     }
 
     public function index()
@@ -27,9 +29,24 @@ class AquariumController extends BaseController
         $width = $request->input("width");
         $length = $request->input("length");
 
-        $aquariumCapacity = $this->calculateAquariumService->execute($height, $width, $length);
+        $aquariumCapacity = $this->calculateAquarium->execute($height, $width, $length);
 
         return response()->json(["capacity" => $aquariumCapacity->getAquariumCapacity(), "filtering" => $aquariumCapacity->getFiltering()]);
     }
 
+    public function fishPopulation(int $liters)
+    {
+        $population = $this->calculateFishPopulations->execute($liters);
+        return view("population", ["population" => $population]);
+    }
+
+    public function loadFauna()
+    {
+        return view("fauna");
+    }
+
+    public function fauna()
+    {
+        return view("fauna");
+    }
 }
