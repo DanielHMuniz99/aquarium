@@ -59,7 +59,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col">
-                                        <button type="button" onclick="calculate()" class="btn btn-info float-right">{{ trans('messages.calculate') }}</button>
+                                        <button type="button" onclick="calculate()" class="btn btn-primary float-right">{{ trans('messages.calculate') }}</button>
                                     </div>
                                 </div>
                             </form>
