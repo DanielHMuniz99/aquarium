@@ -44,13 +44,13 @@
                             <form>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="number" id="length" class="form-control" placeholder="Comprimento do aquário em centímetros">
+                                        <input type="number" id="length" class="form-control" placeholder="{{ trans('messages.length_aquarium_centimeters') }}">
                                     </div>
                                     <div class="col">
-                                        <input type="number" id="height" class="form-control" placeholder="Altura do aquário em centímetros">
+                                        <input type="number" id="height" class="form-control" placeholder="{{ trans('messages.height_aquarium_centimeters') }}">
                                     </div>
                                     <div class="col">
-                                        <input type="number" id="width" class="form-control" placeholder="Largura do aquário em centímetros">
+                                        <input type="number" id="width" class="form-control" placeholder="{{ trans('messages.width_aquarium_centimeters') }}">
                                     </div>
                                 </div>
                                 <br>
