@@ -15,44 +15,31 @@ class AquariumController extends BaseController
 
     public function __construct()
     {
-        $this->calculateAquarium = new CalculateAquariumService;
-        $this->calculateFishPopulations = new CalculateFishPopulationsService;
-        $this->mountFauna = new MountFaunaService;
-    }
 
-    public function index()
-    {
-        return view("index");
     }
 
     public function calculate(Request $request)
     {
-        $height = $request->input("height");
-        $width = $request->input("width");
-        $length = $request->input("length");
-
-        $aquariumCapacity = $this->calculateAquarium->execute($height, $width, $length);
+        $data = $request->all();
+        $calculateAquarium = new CalculateAquariumService($data["height"], $data["width"], $data["length"]);
+        $aquariumCapacity = $calculateAquarium->execute();
 
         return response()->json(["capacity" => $aquariumCapacity->getAquariumCapacity(), "filtering" => $aquariumCapacity->getFiltering()]);
     }
 
     public function fishPopulation(int $liters)
     {
-        $population = $this->calculateFishPopulations->execute($liters);
+        $calculateFishPopulations = new CalculateFishPopulationsService($liters);
+        $population = $calculateFishPopulations->execute();
         return view("population", ["population" => $population]);
-    }
-
-    public function loadFauna()
-    {
-        return view("fauna");
     }
 
     public function fauna(Request $request)
     {
-        $liters = $request->input("liters");
-        $water = $request->input("water");
+        $data = $request->all();
+        // $population = $this->calculateFishPopulations->execute($liters);
+        // $this->mountFauna->execute($liters, $water, $population);
 
-        $this->mountFauna->execute($liters, $water);
         return view("fauna");
     }
 }

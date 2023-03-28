@@ -6,26 +6,32 @@ use App\Repositories\AquariumRepository;
 
 class CalculateAquariumService
 {
-    private $aquarium;
+    protected int $height;
 
-    public function __construct()
-    {
-        $this->aquarium = new AquariumRepository;
-    }
+    protected int $width;
+
+    protected int $length;
 
     /**
      * @param int 
      * @param int
      * @param int
      * 
+     */
+    public function __construct(int $height, int $width, int $length)
+    {
+        $this->height = $height;
+        $this->width = $width;
+        $this->length = $length;
+    }
+    /**
      * @return AquariumRepository
      */
-    public function execute(int $height, int $width, int $length) :AquariumRepository
+    public function execute() :AquariumRepository
     {
-        $aquariumCapacity = (($width * $length) * $height) / 1000;
+        $aquariumCapacity = (($this->width * $this->length) * $this->height) / 1000;
         $filtering = $aquariumCapacity * 5;
-        $this->aquarium->setAquariumCapacity($aquariumCapacity);
-        $this->aquarium->setFiltering($filtering);
-        return $this->aquarium;
+        $aquarium = new AquariumRepository($aquariumCapacity, $filtering);
+        return $aquarium;
     }
 }

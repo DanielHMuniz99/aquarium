@@ -4,7 +4,15 @@ namespace App\Repositories;
 
 class FishPopulationRepository 
 {
+    public function __construct($liters, $size)
+    {
+        $this->liters = $liters;
+        $this->size = $size;
+    }
+
     protected $liters = 0;
+
+    protected $size = "";
 
     public function getLiters()
     {
@@ -16,23 +24,18 @@ class FishPopulationRepository
         $this->liters = $liters;
     }
 
-    public function getMicroFishCapacity()
+    public function getSize()
     {
-        return $this->liters / config('global.micro_fish_per_liter');
+        return $this->size;
     }
 
-    public function getSmallFishCapacity()
+    public function setSize($size)
     {
-        return $this->liters / config('global.small_fish_per_liter');
+        $this->size = $size;
     }
 
-    public function getMediumFishCapacity()
+    public function getCapacity()
     {
-        return $this->liters / config('global.medium_fish_per_liter');
-    }
-
-    public function getBigFishCapacity()
-    {
-        return $this->liters / config('global.big_fish_per_liter');
+        return round($this->liters / config("global.per_liter.{$this->size}"));
     }
 }

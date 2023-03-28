@@ -4,6 +4,12 @@ namespace App\Repositories;
 
 class AquariumRepository 
 {
+    public function __construct($aquariumCapacity, $filtering)
+    {
+        $this->aquariumCapacity = $aquariumCapacity;
+        $this->$filtering = $filtering;
+    }
+
     protected $aquariumCapacity;
 
     protected $filtering;
