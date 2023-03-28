@@ -8,14 +8,14 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="border-start border-start-4 border-start-info px-3 mb-3">
-                                    <small class="text-medium-emphasis">Micro Fish (até 5cm)</small>
+                                    <small class="text-medium-emphasis">{{ trans('messages.micro_fish') }} (5cm)</small>
                                     <div class="fs-5 fw-semibold">{{ round($population->getMicroFishCapacity()) }}</div>
                                 </div>
                             </div>
                             <!-- /.col-->
                             <div class="col-6">
                                 <div class="border-start border-start-4 border-start-danger px-3 mb-3">
-                                    <small class="text-medium-emphasis">Small FIsh (até 10cm)</small>
+                                    <small class="text-medium-emphasis">{{ trans('messages.small_fish') }} (10cm)</small>
                                     <div class="fs-5 fw-semibold">{{ round($population->getSmallFishCapacity()) }}</div>
                                 </div>
                             </div>
@@ -27,14 +27,14 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="border-start border-start-4 border-start-warning px-3 mb-3">
-                                    <small class="text-medium-emphasis">Medium Fish (até 20cm)</small>
+                                    <small class="text-medium-emphasis">{{ trans('messages.medium_fish') }} (20cm)</small>
                                     <div class="fs-5 fw-semibold">{{ round($population->getMediumFishCapacity()) }}</div>
                                 </div>
                             </div>
                             <!-- /.col-->
                             <div class="col-6">
                                 <div class="border-start border-start-4 border-start-success px-3 mb-3">
-                                    <small class="text-medium-emphasis">Big Fish (até 25cm)</small>
+                                    <small class="text-medium-emphasis">{{ trans('messages.big_fish') }} (25cm)</small>
                                     <div class="fs-5 fw-semibold">{{ round($population->getBigFishCapacity()) }}</div>
                                 </div>
                             </div>

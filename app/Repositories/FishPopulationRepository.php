@@ -18,21 +18,21 @@ class FishPopulationRepository
 
     public function getMicroFishCapacity()
     {
-        return $this->liters / 3;
+        return $this->liters / config('global.micro_fish_per_liter');
     }
 
     public function getSmallFishCapacity()
     {
-        return $this->liters / 10;
+        return $this->liters / config('global.small_fish_per_liter');
     }
 
     public function getMediumFishCapacity()
     {
-        return $this->liters / 24;
+        return $this->liters / config('global.medium_fish_per_liter');
     }
 
     public function getBigFishCapacity()
     {
-        return $this->liters / 60;
+        return $this->liters / config('global.big_fish_per_liter');
     }
 }

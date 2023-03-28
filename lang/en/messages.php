@@ -15,5 +15,9 @@ return [
     'input_required' => 'Required inputs',
     'acid_water' => 'Acid Water',
     'alkaline_water' => 'Alkaline Water',
-    'saltwater' => 'Saltwater'
+    'saltwater' => 'Saltwater',
+    'micro_fish' => "Small Fish",
+    'small_fish' => "Small Fish",
+    'medium_fish' => "Medium Fish",
+    'big_fish' => "Big Fish",
 ];

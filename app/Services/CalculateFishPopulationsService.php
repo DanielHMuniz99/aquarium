@@ -6,10 +6,21 @@ use App\Repositories\FishPopulationRepository;
 
 class CalculateFishPopulationsService
 {
-    public function execute(int $liters)
+    protected $fishPopulation;
+
+    public function __construct()
     {
-        $fishPopulation = new FishPopulationRepository();
-        $fishPopulation->setLiters($liters);
-        return $fishPopulation;
+        $this->fishPopulation = new FishPopulationRepository;
+    }
+
+    /**
+     * @param int
+     * 
+     * @return FishPopulationRepository 
+     */
+    public function execute(int $liters) :FishPopulationRepository
+    {
+        $this->fishPopulation->setLiters($liters);
+        return $this->fishPopulation;
     }
 }

@@ -34,15 +34,15 @@ function population(liters = 0)
     });
 }
 
-function fauna()
+function fauna(water)
 {
     $.ajax({
         method: "POST",
         url: "/fauna/",
         dataType : 'html',
         data: {
-            water: "",
-            liters: "",
+            water: water,
+            liters: $("#capacity").text(),
         }
     }).done(function(data) {
         console.log(data)
@@ -75,7 +75,7 @@ function setResults(data)
     $("#filtering").text(data.filtering)
 }
 
-function tab(model)
+function tab(water = "")
 {
-    fauna();
+    fauna(water);
 }

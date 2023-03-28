@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fish', function (Blueprint $table) {
+        Schema::create('fish_families', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->float("ph_min");
-            $table->float("ph_max");
-            $table->float("temperature_min");
-            $table->float("temperature_max");
-            $table->float("size_avg");
         });
     }
 
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fish');
+        Schema::dropIfExists('fish_families');
     }
 };

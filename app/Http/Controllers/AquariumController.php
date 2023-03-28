@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 use App\Services\CalculateAquariumService;
 use App\Services\CalculateFishPopulationsService;
+use App\Services\MountFaunaService;
 use Illuminate\Http\Request;
 
 class AquariumController extends BaseController
@@ -16,6 +17,7 @@ class AquariumController extends BaseController
     {
         $this->calculateAquarium = new CalculateAquariumService;
         $this->calculateFishPopulations = new CalculateFishPopulationsService;
+        $this->mountFauna = new MountFaunaService;
     }
 
     public function index()
@@ -45,8 +47,12 @@ class AquariumController extends BaseController
         return view("fauna");
     }
 
-    public function fauna()
+    public function fauna(Request $request)
     {
+        $liters = $request->input("liters");
+        $water = $request->input("water");
+
+        $this->mountFauna->execute($liters, $water);
         return view("fauna");
     }
 }
