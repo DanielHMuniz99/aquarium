@@ -37,9 +37,10 @@ class AquariumController extends BaseController
     public function fauna(Request $request)
     {
         $data = $request->all();
-        // $population = $this->calculateFishPopulations->execute($liters);
-        // $this->mountFauna->execute($liters, $water, $population);
-
-        return view("fauna");
+        $calculateFishPopulations = new CalculateFishPopulationsService($data['liters']);
+        $population = $calculateFishPopulations->execute();
+        $mountFauna = new MountFaunaService($data['liters'], $data['water'], $population);
+        $fauna = $mountFauna->execute();
+        return view("fauna", ["fauna" => $fauna]);
     }
 }

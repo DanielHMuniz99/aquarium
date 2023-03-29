@@ -14,6 +14,8 @@ class FishPopulationRepository
 
     protected $size = "";
 
+    protected $fishes;
+
     public function getLiters()
     {
         return $this->liters;
@@ -32,6 +34,16 @@ class FishPopulationRepository
     public function setSize($size)
     {
         $this->size = $size;
+    }
+
+    public function getFishes()
+    {
+        return $this->fishes;
+    }
+
+    public function setFishes($fishes)
+    {
+        $this->fishes = $fishes;
     }
 
     public function getCapacity()

@@ -9,7 +9,7 @@
                             @foreach($population as $size)
                                 <div class="col-3">
                                     <div class="border-start border-start-4 border-start-info px-3 mb-3">
-                                        <small class="text-medium-emphasis">{{ trans("messages.{$size->getSize()}_fish") }} (5cm)</small>
+                                        <small class="text-medium-emphasis">{{ trans("messages.{$size->getSize()}_fish") }} ({{ config("global.size.{$size->getSize()}") }}cm)</small>
                                         <div class="fs-5 fw-semibold">{{ $size->getCapacity() }}</div>
                                     </div>
                                 </div>

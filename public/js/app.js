@@ -45,6 +45,7 @@ function fauna(water)
             liters: $("#capacity").text(),
         }
     }).done(function(data) {
+        $(".fauna").html(data)
         console.log(data)
     });
 }

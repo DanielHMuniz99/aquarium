@@ -19,13 +19,13 @@
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade" id="acid-water_water" role="tabpanel" aria-labelledby="acid-water-tab">
-                                    <p></p>
+                                    <p class="acid-tab"></p>
                                 </div>
                                 <div class="tab-pane fade" id="alkaline-water" role="tabpanel" aria-labelledby="alkaline-water-tab">
-                                    <p></p>
+                                    <p class="alkaline-tab"></p>
                                 </div>
                                 <div class="tab-pane fade active show" id="saltwater" role="tabpanel" aria-labelledby="saltwater-tab">
-                                    <p></p>
+                                    <p class="saltwater-tab"></p>
                                 </div>
                             </div>
                         </div>
