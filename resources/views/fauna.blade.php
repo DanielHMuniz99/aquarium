@@ -17,17 +17,11 @@
                                     <button class="nav-link" onclick="tab('saltwater')" id="saltwater-tab" data-toggle="tab" data-target="#saltwater" type="button" role="tab" aria-controls="saltwater" aria-selected="true">{{ trans('messages.saltwater') }}</button>
                                 </li>
                             </ul>
+
                             <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade" id="acid-water_water" role="tabpanel" aria-labelledby="acid-water-tab">
-                                    <p class="acid-tab"></p>
-                                </div>
-                                <div class="tab-pane fade" id="alkaline-water" role="tabpanel" aria-labelledby="alkaline-water-tab">
-                                    <p class="alkaline-tab"></p>
-                                </div>
-                                <div class="tab-pane fade active show" id="saltwater" role="tabpanel" aria-labelledby="saltwater-tab">
-                                    <p class="saltwater-tab"></p>
-                                </div>
+                                LOLS
                             </div>
+
                         </div>
                     </div>
                 </div>

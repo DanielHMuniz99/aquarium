@@ -62,7 +62,8 @@ class MountFaunaService
                 ];
             }
         }
-        $this->gta($control);
+
+        return $this->gta($control);
     }
 
     public function gta($control)
@@ -84,7 +85,7 @@ class MountFaunaService
             }
         }
 
-        dd($count, $available);
+        return $count;
     }
 
     /**
