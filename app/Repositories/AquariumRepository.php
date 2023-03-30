@@ -7,7 +7,7 @@ class AquariumRepository
     public function __construct($aquariumCapacity, $filtering)
     {
         $this->aquariumCapacity = $aquariumCapacity;
-        $this->$filtering = $filtering;
+        $this->filtering = $filtering;
     }
 
     protected $aquariumCapacity;

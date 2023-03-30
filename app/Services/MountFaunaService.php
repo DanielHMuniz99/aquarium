@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Models\Fish;
 use App\Repositories\FishRepository;
+
+use App\Repositories\FaunaRepository;
+
 use Illuminate\Support\Facades\DB;
 
 class MountFaunaService
@@ -13,6 +16,8 @@ class MountFaunaService
     protected string $water;
 
     protected array $population;
+
+    protected $fauna;
 
     /**
      * @param int
@@ -24,6 +29,7 @@ class MountFaunaService
         $this->liters = $liters;
         $this->water = $water;
         $this->population = $population;
+        $this->fauna = new FaunaRepository($liters);
     }
 
     /**
@@ -31,61 +37,54 @@ class MountFaunaService
      */
     public function execute()
     {
-        $control = [];
+        $agressiveFish = new FaunaRepository($this->liters);
+        $passiveFish = new FaunaRepository($this->liters);
         foreach ($this->population as $population) {
 
             $aggressive = $this->getAggressiveFish($population->getSize());
-            
             if ($aggressive) {
-                $control["aggressive"][] = [
-                    "id" => $aggressive->id,
-                    "size" => $population->getSize(),
-                    "size_avg" => $aggressive->size_avg,
-                    "name" => $aggressive->name,
-                    "shoal_min" => $aggressive->shoal_min,
-                    "aggressive" => $aggressive->aggressive,
-                    "min_cm" => $aggressive->shoal_min * $aggressive->size_avg
-                ];
+                $agressiveFish->setFish($aggressive);
             }
 
             $passives = $this->getPassiveFish($population->getSize());
-
             foreach ($passives as $passive) {
-                $control["passive"][] = [
-                    "id" => $passive->id,
-                    "size" => $population->getSize(),
-                    "size_avg" => $passive->size_avg,
-                    "name" => $passive->name,
-                    "shoal_min" => $passive->shoal_min,
-                    "aggressive" => $passive->aggressive,
-                    "min_cm" => $passive->shoal_min * $passive->size_avg
-                ];
+                $passiveFish->setFish($passive);
             }
         }
 
-        return $this->gta($control);
+        if ($agressiveFish->getFish()) {
+            $rand = array_rand($agressiveFish->getFish());
+            $this->mountFauna([$agressiveFish->getFish()[$rand]]);
+        }
+
+        $this->mountFauna($passiveFish->getFish());
+
+        return $this->fauna;
     }
 
-    public function gta($control)
+
+    public function mountFauna($fish) :void
     {
-        $available = $this->liters;
-        $count = [];
-
-        $rand = array_rand($control['aggressive']); 
-        if ($control['aggressive'][$rand]) {
-            $count[] = ["number" => $control['aggressive'][$rand]["shoal_min"], $control['aggressive'][$rand]];
-            $available -= $control['aggressive'][$rand]["min_cm"];
-        }
-
-        shuffle($control['passive']);
-        for ($i = 0; $i < count($control['passive']); $i++) {
-            if ($available > $control['passive'][$i]["min_cm"]) {
-                $count[] = ["number" => $control['passive'][$i]["shoal_min"], $control['passive'][$i]];
-                $available -= $control['passive'][$i]["min_cm"];
+        for ($i = 0; $i < count($fish); $i++) {
+            // dd($this->fauna->getAvailable(), ($fish[$i]->shoal_min * $fish[$i]->size_avg), $fish[$i]);
+            if ($this->fauna->getAvailable() > ($fish[$i]->shoal_min * $fish[$i]->size_avg)) {
+                $this->setData($fish[$i]);
             }
         }
+    }
 
-        return $count;
+    /**
+     * @param Fauna
+     */
+    public function setData($fish) :void
+    {
+        $total = $this->fauna->getTotal() + $fish->shoal_min;
+        $this->fauna->setTotal($total);
+
+        $available = $this->fauna->getAvailable() - ($fish->shoal_min * $fish->size_avg);
+        $this->fauna->setAvailable($available);
+
+        $this->fauna->setFish($fish);
     }
 
     /**
@@ -101,7 +100,7 @@ class MountFaunaService
             return Fish::where("ph_min", ">=", 7);
         }
 
-        return new Fish();
+        return Fish::where("id", 0);
     }
 
     public function getAggressiveFish($size)
@@ -125,21 +124,3 @@ class MountFaunaService
             ->get();
     }
 }
-
-
-
-// 'micro' => 3,
-// 'small' => 10,
-// 'medium' => 24,
-// 'big' => 60
-
-
-
-// 182.25 / 24 
-
-// 4 * 24 = 96
-
-// 8 
-
-// 86.25 = 8 
-// TypeError: str_contains(): Argument #1 ($haystack) must be of type string, Illuminate\Database\Query\Expression given in file /home/daniel/workspace/laravel/aquarium/aquarium/vendor/laravel/framework/src/Illuminate/Database/Grammar.php on line 148

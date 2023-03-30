@@ -31,10 +31,11 @@ function population(liters = 0)
     }).done(function(data) {
         $(".population").html(data)
         loadFauna();
+        fauna();
     });
 }
 
-function fauna(water)
+function fauna(water = "acid-water")
 {
     $.ajax({
         method: "POST",
@@ -45,9 +46,7 @@ function fauna(water)
             liters: $("#capacity").text(),
         }
     }).done(function(data) {
-        $("." + water + "-tab").html(data)
-        console.log("." + water + "-tab")
-        console.log($("." + water + "-tab"))
+        $("#myTabContent").html(data)
     });
 }
 
