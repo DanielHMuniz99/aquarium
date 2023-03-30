@@ -11,13 +11,6 @@ use Illuminate\Http\Request;
 
 class AquariumController extends BaseController
 {
-    public $calculateAquarium;
-
-    public function __construct()
-    {
-
-    }
-
     public function calculate(Request $request)
     {
         $data = $request->all();

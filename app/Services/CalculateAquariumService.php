@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\AquariumRepository;
+use App\Classes\AquariumItem;
 
 class CalculateAquariumService
 {
@@ -25,13 +25,13 @@ class CalculateAquariumService
         $this->length = $length;
     }
     /**
-     * @return AquariumRepository
+     * @return AquariumItem
      */
-    public function execute() :AquariumRepository
+    public function execute() :AquariumItem
     {
         $aquariumCapacity = (($this->width * $this->length) * $this->height) / 1000;
         $filtering = $aquariumCapacity * 5;
-        $aquarium = new AquariumRepository($aquariumCapacity, $filtering);
+        $aquarium = new AquariumItem($aquariumCapacity, $filtering);
         return $aquarium;
     }
 }

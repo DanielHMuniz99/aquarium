@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Models\Fish;
-use App\Repositories\FishRepository;
 
-use App\Repositories\FaunaRepository;
+use App\Classes\FaunaItem;
 
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +28,7 @@ class MountFaunaService
         $this->liters = $liters;
         $this->water = $water;
         $this->population = $population;
-        $this->fauna = new FaunaRepository($liters);
+        $this->fauna = new FaunaItem($liters);
     }
 
     /**
@@ -37,8 +36,9 @@ class MountFaunaService
      */
     public function execute()
     {
-        $agressiveFish = new FaunaRepository($this->liters);
-        $passiveFish = new FaunaRepository($this->liters);
+        $agressiveFish = new FaunaItem($this->liters);
+        $passiveFish = new FaunaItem($this->liters);
+
         foreach ($this->population as $population) {
 
             $aggressive = $this->getAggressiveFish($population->getSize());
@@ -66,7 +66,6 @@ class MountFaunaService
     public function mountFauna($fish) :void
     {
         for ($i = 0; $i < count($fish); $i++) {
-            // dd($this->fauna->getAvailable(), ($fish[$i]->shoal_min * $fish[$i]->size_avg), $fish[$i]);
             if ($this->fauna->getAvailable() > ($fish[$i]->shoal_min * $fish[$i]->size_avg)) {
                 $this->setData($fish[$i]);
             }

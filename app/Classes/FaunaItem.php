@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Classes;
 
-class FaunaRepository 
+class FaunaItem 
 {
     public function __construct($available)
     {

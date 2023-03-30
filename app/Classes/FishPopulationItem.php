@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Classes;
 
-class FishPopulationRepository 
+class FishPopulationItem 
 {
     public function __construct($liters, $size)
     {

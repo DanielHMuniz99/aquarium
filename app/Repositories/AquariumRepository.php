@@ -4,34 +4,34 @@ namespace App\Repositories;
 
 class AquariumRepository 
 {
-    public function __construct($aquariumCapacity, $filtering)
+    public function __construct()
     {
-        $this->aquariumCapacity = $aquariumCapacity;
-        $this->filtering = $filtering;
+        dd("gta");
+        // $this->aquariumCapacity = $aquariumCapacity;
+        // $this->filtering = $filtering;
     }
 
-    protected $aquariumCapacity;
+    // protected $aquariumCapacity;
 
-    protected $filtering;
+    // protected $filtering;
 
-    public function getAquariumCapacity()
-    {
-        return $this->aquariumCapacity;
-    }
+    // public function getAquariumCapacity()
+    // {
+    //     return $this->aquariumCapacity;
+    // }
 
-    public function setAquariumCapacity($aquariumCapacity)
-    {
-        $this->aquariumCapacity = $aquariumCapacity;
-    }
+    // public function setAquariumCapacity($aquariumCapacity)
+    // {
+    //     $this->aquariumCapacity = $aquariumCapacity;
+    // }
 
-    public function getFiltering()
-    {
-        return $this->filtering;
-    }
+    // public function getFiltering()
+    // {
+    //     return $this->filtering;
+    // }
 
-    public function setFiltering($filtering)
-    {
-        $this->filtering = $filtering;
-    }
-
+    // public function setFiltering($filtering)
+    // {
+    //     $this->filtering = $filtering;
+    // }
 }

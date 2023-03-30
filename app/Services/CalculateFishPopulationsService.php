@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\FishPopulationRepository;
+use App\Classes\FishPopulationItem;
 
 class CalculateFishPopulationsService
 {
@@ -23,7 +23,7 @@ class CalculateFishPopulationsService
     {
         $sizes = [];
         foreach (config("global.sizes") as $key => $size) {
-            $sizes[$size] = new FishPopulationRepository($this->liters, $size);
+            $sizes[$size] = new FishPopulationItem($this->liters, $size);
         }
         return $sizes;
     }
