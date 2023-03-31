@@ -24,5 +24,5 @@ Route::get("/fauna", function(){
 });
 
 Route::get("/", function(){
-    return \View::make("index");
+    return \View::make("body");
 });
