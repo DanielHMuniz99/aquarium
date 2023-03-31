@@ -3,36 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-
-use App\Services\CalculateAquariumService;
-use App\Services\CalculateFishPopulationsService;
+use App\Actions\CalculateAquariumAction;
+use App\Actions\CalculateFishPopulationsAction;
 use App\Services\MountFaunaService;
 use Illuminate\Http\Request;
 
 class AquariumController extends BaseController
 {
+    /**
+     * @param Request
+     */
     public function calculate(Request $request)
     {
         $data = $request->all();
-        $calculateAquarium = new CalculateAquariumService($data["height"], $data["width"], $data["length"]);
-        $aquariumCapacity = $calculateAquarium->execute();
-
+        $calculateAquarium = new CalculateAquariumAction();
+        $aquariumCapacity = $calculateAquarium->handle($data["height"], $data["width"], $data["length"]);
         return response()->json(["capacity" => $aquariumCapacity->getAquariumCapacity(), "filtering" => $aquariumCapacity->getFiltering()]);
     }
 
+    /**
+     * @param int
+     */
     public function fishPopulation(int $liters)
     {
-        $calculateFishPopulations = new CalculateFishPopulationsService($liters);
-        $population = $calculateFishPopulations->execute();
+        $calculateFishPopulations = new CalculateFishPopulationsAction();
+        $population = $calculateFishPopulations->handle($liters);
         return view("population", ["population" => $population]);
     }
 
+    /**
+     * @param Request
+     */
     public function fauna(Request $request)
     {
         $data = $request->all();
-        $calculateFishPopulations = new CalculateFishPopulationsService($data['liters']);
-        $population = $calculateFishPopulations->execute();
-        $mountFauna = new MountFaunaService($data['liters'], $data['water'], $population);
+        $mountFauna = new MountFaunaService($data['liters'], $data['water']);
         $fauna = $mountFauna->execute();
         return view("fauna-content", ["fauna" => $fauna]);
     }

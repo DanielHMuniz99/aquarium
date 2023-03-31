@@ -15,7 +15,15 @@ class FaunaItem
 
     protected $fish = [];
 
-    protected $aggressiveFish = [];
+    public function increaseTotal($total) :void
+    {
+        $this->total += $total;
+    }
+
+    public function decreaseAvailable($available) :void
+    {
+        $this->available -= $available;
+    }
 
     public function setAvailable($available)
     {

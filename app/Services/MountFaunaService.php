@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Fish;
-
+use App\Repositories\FishRepository;
 use App\Classes\FaunaItem;
 
 use Illuminate\Support\Facades\DB;
@@ -14,21 +14,20 @@ class MountFaunaService
 
     protected string $water;
 
-    protected array $population;
-
     protected $fauna;
+
+    protected $fishRepository;
 
     /**
      * @param int
      * @param string
-     * @param array
      */
-    public function __construct(int $liters, string $water, array $population)
+    public function __construct(int $liters, string $water)
     {
         $this->liters = $liters;
         $this->water = $water;
-        $this->population = $population;
         $this->fauna = new FaunaItem($liters);
+        $this->fishRepository = new FishRepository();
     }
 
     /**
@@ -39,14 +38,16 @@ class MountFaunaService
         $agressiveFish = new FaunaItem($this->liters);
         $passiveFish = new FaunaItem($this->liters);
 
-        foreach ($this->population as $population) {
+        foreach (config("global.sizes") as $key => $population) {
 
-            $aggressive = $this->getAggressiveFish($population->getSize());
+            $aggressive = $this->fishRepository->getAggressiveFish($this->liters, $population, $this->water);
+
             if ($aggressive) {
                 $agressiveFish->setFish($aggressive);
             }
 
-            $passives = $this->getPassiveFish($population->getSize());
+            $passives = $this->fishRepository->getPassiveFish($this->liters, $population, $this->water);
+
             foreach ($passives as $passive) {
                 $passiveFish->setFish($passive);
             }
@@ -58,68 +59,29 @@ class MountFaunaService
         }
 
         $this->mountFauna($passiveFish->getFish());
-
         return $this->fauna;
     }
 
-
+    /**
+     * @return void
+     */
     public function mountFauna($fish) :void
     {
         for ($i = 0; $i < count($fish); $i++) {
             if ($this->fauna->getAvailable() > ($fish[$i]->shoal_min * $fish[$i]->size_avg)) {
-                $this->setData($fish[$i]);
+                $this->calculateAvailable($fish[$i]);
             }
         }
     }
 
     /**
      * @param Fauna
+     * @return void
      */
-    public function setData($fish) :void
+    public function calculateAvailable($fish) :void
     {
-        $total = $this->fauna->getTotal() + $fish->shoal_min;
-        $this->fauna->setTotal($total);
-
-        $available = $this->fauna->getAvailable() - ($fish->shoal_min * $fish->size_avg);
-        $this->fauna->setAvailable($available);
-
+        $this->fauna->increaseTotal($fish->shoal_min);
+        $this->fauna->decreaseAvailable($fish->shoal_min * $fish->size_avg);
         $this->fauna->setFish($fish);
-    }
-
-    /**
-     * @return Fish
-     */
-    public function getFishByWater()
-    {
-        if ($this->water == "acid-water") {
-            return Fish::where("ph_min", "<", 7);
-        }
-
-        if ($this->water == "alkaline-water") {
-            return Fish::where("ph_min", ">=", 7);
-        }
-
-        return Fish::where("id", 0);
-    }
-
-    public function getAggressiveFish($size)
-    {
-        return $this->getFishByWater()
-            ->whereBetween("size_avg", config("global.fish_size.{$size}"))
-            ->where("aggressive", 1)
-            ->whereRaw("size_avg * shoal_min < {$this->liters}")
-            ->inRandomOrder()
-            ->first();
-    }
-
-    public function getPassiveFish($size)
-    {
-        return $this->getFishByWater()
-            ->whereBetween("size_avg", config("global.fish_size.{$size}"))
-            ->where("aggressive", 0)
-            ->whereRaw("size_avg * shoal_min < {$this->liters}")
-            ->inRandomOrder()
-            ->limit(5)
-            ->get();
     }
 }
